@@ -4,7 +4,7 @@
   "description": "Tiny Tummy e-commerce store",
   "main": "index.html",
   "engines": {
-    "node": "18.x"
+    "node": "24.x"
   },
   "scripts": {
     "dev": "vercel dev"
