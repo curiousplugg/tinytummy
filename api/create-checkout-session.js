@@ -4,8 +4,8 @@
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// For Vercel
-export default async function handler(req, res) {
+// For Vercel - using CommonJS module.exports
+module.exports = async function handler(req, res) {
     // Only allow POST requests
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
@@ -48,13 +48,18 @@ export default async function handler(req, res) {
             };
         });
 
+        // Get origin from request headers or use default
+        const origin = req.headers.origin || (req.headers.host 
+            ? `https://${req.headers.host}` 
+            : 'https://tiny-tummy.com');
+
         // Create Stripe Checkout Session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `${req.headers.origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${req.headers.origin}/index.html#products`,
+            success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${origin}/index.html#products`,
             shipping_address_collection: {
                 allowed_countries: ['US', 'CA'], // Add more countries as needed
             },
