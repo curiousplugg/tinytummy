@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TinyTummies - Premium Baby Feeding Products</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🍼 TinyTummies</h1>
+                </div>
+                <nav class="nav">
+                    <a href="#home">Home</a>
+                    <a href="#products">Products</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <div class="cart-icon" id="cartIcon">
+                    <span>🛒</span>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h2>Nourishing Little Ones, One Meal at a Time</h2>
+                <p>Premium baby feeding products designed with love and safety in mind</p>
+                <a href="#products" class="btn-primary">Shop Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Our Products</h2>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <h2 class="section-title">What Parents Are Saying</h2>
+            <div class="reviews-wrapper">
+                <button class="review-nav-btn review-nav-left" id="reviewLeftBtn" aria-label="Previous reviews">‹</button>
+                <div class="reviews-scroll-container" id="reviewsContainer">
+                    <div class="reviews-scroll" id="reviewsScroll">
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"These silicone bowls are amazing! They stick perfectly to our high chair and my toddler loves them. Easy to clean too!"</p>
+                            <p class="review-author">- Sarah M.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"The baby food maker is a lifesaver! Makes perfect purees every time. Highly recommend for busy parents."</p>
+                            <p class="review-author">- Jessica L.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"Great quality products at affordable prices. Fast shipping and excellent customer service. Will definitely order again!"</p>
+                            <p class="review-author">- Michael T.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"Love the bottle sterilizer! It's so easy to use and sterilizes everything perfectly. Great value for money!"</p>
+                            <p class="review-author">- Emily R.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"The fruit feeder pacifier is perfect for introducing solids. My baby loves it and it's so easy to clean!"</p>
+                            <p class="review-author">- David K.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"The 5-piece feeding set is exactly what we needed. High quality and my little one loves the colors!"</p>
+                            <p class="review-author">- Maria G.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"Fast shipping and amazing products! The milk bottle shaker works perfectly. Highly recommend TinyTummies!"</p>
+                            <p class="review-author">- James W.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"Best baby products I've purchased! Everything is BPA-free and safe. My baby loves all the feeding accessories!"</p>
+                            <p class="review-author">- Lisa H.</p>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-stars">★★★★★</div>
+                            <p class="review-text">"The food maker steamer is incredible! Makes meal prep so much easier. Worth every penny!"</p>
+                            <p class="review-author">- Robert P.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="review-nav-btn review-nav-right" id="reviewRightBtn" aria-label="Next reviews">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Badges Section -->
+    <section class="trust-badges">
+        <div class="container">
+            <div class="trust-badges-grid">
+                <div class="trust-badge">
+                    <div class="trust-icon">🚚</div>
+                    <h3>Free Shipping</h3>
+                    <p>Free shipping on all orders!</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-icon">💰</div>
+                    <h3>30-Day Money Back</h3>
+                    <p>30 day money back guaranteed</p>
+                </div>
+                <div class="trust-badge">
+                    <div class="trust-icon">✅</div>
+                    <h3>BPA-Free & Safe</h3>
+                    <p>All products tested for safety</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Shopping Cart</h2>
+                <span class="close" id="closeCart">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="cartItems"></div>
+                <div class="cart-total">
+                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="clearCart">Clear Cart</button>
+                <button class="btn-primary" id="checkoutBtn">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About TinyTummies</h2>
+            <p class="about-text">
+                At TinyTummies, we believe that feeding your baby should be safe, easy, and enjoyable. 
+                Our carefully curated selection of premium baby feeding products is designed to make 
+                mealtime a delightful experience for both you and your little one. All our products 
+                are BPA-free, food-grade, and tested for safety.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TinyTummies</h3>
+                    <p>Premium baby feeding products for modern parents</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#home">Home</a>
+                    <a href="#products">Products</a>
+                    <a href="#about">About</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: hello@tinytummies.com</p>
+                    <p>Phone: 1-800-TINY-TUM</p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 TinyTummies. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
