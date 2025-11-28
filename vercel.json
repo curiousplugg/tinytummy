@@ -1,12 +1,8 @@
 {
   "functions": {
     "api/*.js": {
-      "runtime": "@vercel/node@3.0.7"
+      "runtime": "@vercel/node@3.1.0"
     }
-  },
-  "buildCommand": null,
-  "devCommand": null,
-  "installCommand": null,
-  "framework": null
+  }
 }
 
