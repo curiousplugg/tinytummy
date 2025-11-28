@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tiny Tummy - Premium Baby Feeding Products</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <!-- Header -->
@@ -205,6 +206,11 @@
     </footer>
 
     <script src="script.js"></script>
+    <script type="module">
+        // Vercel Analytics for static HTML sites
+        import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics@1.1.1/dist/index.js';
+        inject();
+    </script>
 </body>
 </html>
 

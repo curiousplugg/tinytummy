@@ -3,9 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details - Tiny Tummy</title>
+    <title>Order Successful - Tiny Tummy</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        .success-container {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+        .success-content {
+            max-width: 600px;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .success-content h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .success-content p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        .btn-primary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -13,9 +56,7 @@
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <a href="index.html" style="text-decoration: none; color: inherit;">
-                        <h1>🍼 Tiny Tummy</h1>
-                    </a>
+                    <h1>🍼 Tiny Tummy</h1>
                 </div>
                 <nav class="nav">
                     <a href="index.html#home">Home</a>
@@ -31,43 +72,13 @@
         </div>
     </header>
 
-    <!-- Product Detail Section -->
-    <section class="product-detail">
-        <div class="container">
-            <a href="index.html#products" class="back-link">← Back to Products</a>
-            <div class="product-detail-content" id="productDetailContent">
-                <!-- Product content will be dynamically loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- You May Also Like Section -->
-    <section class="related-products">
-        <div class="container">
-            <h2 class="related-products-title">You may also like</h2>
-            <div class="related-products-grid" id="relatedProductsGrid">
-                <!-- Related products will be dynamically loaded here -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Cart Modal -->
-    <div class="modal" id="cartModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Shopping Cart</h2>
-                <span class="close" id="closeCart">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div id="cartItems"></div>
-                <div class="cart-total">
-                    <strong>Total: $<span id="cartTotal">0.00</span></strong>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" id="clearCart">Clear Cart</button>
-                <button class="btn-primary" id="checkoutBtn">Checkout</button>
-            </div>
+    <div class="success-container">
+        <div class="success-content">
+            <div class="success-icon">✅</div>
+            <h1>Thank You for Your Order!</h1>
+            <p>Your payment was successful. You will receive a confirmation email shortly with your order details.</p>
+            <p>We're preparing your order and will ship it out as soon as possible!</p>
+            <a href="index.html" class="btn-primary">Return to Home</a>
         </div>
     </div>
 
@@ -101,13 +112,13 @@
                         <a href="https://instagram.com/tinytummy" target="_blank" class="social-icon" aria-label="Instagram">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <defs>
-                                    <linearGradient id="instagram-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <linearGradient id="instagram-gradient-success" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" style="stop-color:#833AB4;stop-opacity:1" />
                                         <stop offset="50%" style="stop-color:#FD1D1D;stop-opacity:1" />
                                         <stop offset="100%" style="stop-color:#FCAF45;stop-opacity:1" />
                                     </linearGradient>
                                 </defs>
-                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#instagram-gradient)"/>
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="url(#instagram-gradient-success)"/>
                                 <circle cx="12" cy="12" r="4" fill="white"/>
                                 <circle cx="17" cy="7" r="1.2" fill="white"/>
                             </svg>
@@ -132,7 +143,16 @@
         </div>
     </footer>
 
-    <script src="product-script.js"></script>
+    <script>
+        // Clear cart on successful payment
+        localStorage.removeItem('cart');
+        
+        // Update cart count
+        const cartCount = document.getElementById('cartCount');
+        if (cartCount) {
+            cartCount.textContent = '0';
+        }
+    </script>
     <script type="module">
         // Vercel Analytics for static HTML sites
         import { inject } from 'https://cdn.jsdelivr.net/npm/@vercel/analytics@1.1.1/dist/index.js';

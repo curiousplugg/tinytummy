@@ -396,12 +396,47 @@ function setupEventListeners() {
     // Checkout
     const checkoutBtn = document.getElementById('checkoutBtn');
     if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', () => {
+        checkoutBtn.addEventListener('click', async () => {
             if (cart.length === 0) {
                 alert('Your cart is empty!');
                 return;
             }
-            alert('Thank you for your order! This is a demo store. In a real implementation, you would be redirected to a payment gateway.');
+            
+            // Disable button during processing
+            checkoutBtn.disabled = true;
+            checkoutBtn.textContent = 'Processing...';
+            
+            try {
+                // Send cart items to serverless function
+                const response = await fetch('/api/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ items: cart }),
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to create checkout session');
+                }
+                
+                // Redirect to Stripe Checkout
+                const stripe = Stripe('pk_live_51SYRe757nKOsYdQQpPiiiwKMmlgXHV3AMqaC8mhoLlgV37ieOElwcv8KmJiQFgWnmcQFj6rT3DjgY0JV2Zh3y4hg00TTUK6Zq8');
+                const { error } = await stripe.redirectToCheckout({
+                    sessionId: data.sessionId,
+                });
+                
+                if (error) {
+                    throw new Error(error.message);
+                }
+            } catch (error) {
+                console.error('Checkout error:', error);
+                alert('Error processing checkout: ' + error.message);
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = 'Checkout';
+            }
         });
     }
 }
