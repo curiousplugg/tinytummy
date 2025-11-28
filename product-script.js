@@ -204,9 +204,6 @@ function loadProduct() {
     
     // Load related products
     loadRelatedProducts(productId);
-    
-    // Setup sticky images
-    setupStickyImages();
 }
 
 // Change Image
@@ -449,86 +446,6 @@ function loadRelatedProducts(currentProductId) {
             </div>
         `;
     }).join('');
-}
-
-// Setup Sticky Images
-function setupStickyImages() {
-    const stickyImages = document.querySelector('.sticky-images');
-    const productFeatures = document.getElementById('productFeatures');
-    const productDetailGrid = document.querySelector('.product-detail-grid');
-    
-    if (!stickyImages || !productFeatures || !productDetailGrid) return;
-    
-    // Don't enable sticky on mobile devices
-    if (window.innerWidth <= 968) {
-        stickyImages.style.position = 'relative';
-        return;
-    }
-    
-    let ticking = false;
-    
-    function updateStickyPosition() {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                // Check if we're on mobile
-                if (window.innerWidth <= 968) {
-                    stickyImages.style.position = 'relative';
-                    return;
-                }
-                
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const gridRect = productDetailGrid.getBoundingClientRect();
-                const featuresRect = productFeatures.getBoundingClientRect();
-                const viewportHeight = window.innerHeight;
-                const headerHeight = 100;
-                
-                // Get the grid's position relative to document
-                const gridTop = gridRect.top + scrollTop;
-                const gridBottom = gridTop + gridRect.height;
-                
-                // Calculate when to stop sticking (when features bottom reaches viewport bottom)
-                const featuresBottom = featuresRect.bottom;
-                const shouldStopSticking = featuresBottom <= viewportHeight + 50;
-                
-                // Calculate if we've scrolled past the grid
-                const currentScrollBottom = scrollTop + viewportHeight;
-                const pastGrid = currentScrollBottom >= gridBottom - 50;
-                
-                if (shouldStopSticking || pastGrid) {
-                    // Stop sticking - position at bottom of grid
-                    stickyImages.style.position = 'absolute';
-                    stickyImages.style.top = 'auto';
-                    stickyImages.style.bottom = '0';
-                } else {
-                    // Normal sticky behavior
-                    stickyImages.style.position = 'sticky';
-                    stickyImages.style.top = `${headerHeight}px`;
-                    stickyImages.style.bottom = 'auto';
-                }
-                
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }
-    
-    window.addEventListener('scroll', updateStickyPosition, { passive: true });
-    
-    // Recalculate on resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            if (window.innerWidth <= 968) {
-                stickyImages.style.position = 'relative';
-            } else {
-                updateStickyPosition();
-            }
-        }, 100);
-    });
-    
-    // Initial call
-    setTimeout(updateStickyPosition, 200);
 }
 
 // Show Notification
