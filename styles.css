@@ -57,7 +57,7 @@ body {
 }
 
 .logo-image {
-    height: 70px;
+    height: 120px;
     width: auto;
     object-fit: contain;
     transition: transform 0.3s;
@@ -710,7 +710,7 @@ body {
 }
 
 .footer-logo {
-    height: 60px;
+    height: 100px;
     width: auto;
     object-fit: contain;
     margin-bottom: 1rem;
@@ -885,11 +885,11 @@ body {
     }
     
     .logo-image {
-        height: 55px;
+        height: 90px;
     }
     
     .footer-logo {
-        height: 50px;
+        height: 80px;
     }
 
     .nav {
@@ -937,11 +937,11 @@ body {
     }
     
     .logo-image {
-        height: 45px;
+        height: 70px;
     }
     
     .footer-logo {
-        height: 40px;
+        height: 60px;
     }
     
     .products-grid {
