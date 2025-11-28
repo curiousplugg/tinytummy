@@ -3,6 +3,10 @@
     "api/*.js": {
       "runtime": "@vercel/node@3.0.7"
     }
-  }
+  },
+  "buildCommand": null,
+  "devCommand": null,
+  "installCommand": null,
+  "framework": null
 }
 

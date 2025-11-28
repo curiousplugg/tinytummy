@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Tiny Tummy e-commerce store",
   "main": "index.html",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "vercel dev"
   },
