@@ -24,6 +24,15 @@ module.exports = async function handler(req, res) {
     }
 
     try {
+        // Check if Stripe secret key is configured
+        if (!process.env.STRIPE_SECRET_KEY) {
+            console.error('STRIPE_SECRET_KEY is not set');
+            return res.status(500).json({ 
+                error: 'Server configuration error',
+                message: 'Payment service is not configured. Please contact support.' 
+            });
+        }
+
         const { items } = req.body;
 
         if (!items || items.length === 0) {
@@ -144,9 +153,27 @@ module.exports = async function handler(req, res) {
         });
     } catch (error) {
         console.error('Error creating checkout session:', error);
+        console.error('Error details:', {
+            message: error.message,
+            type: error.type,
+            code: error.code,
+            statusCode: error.statusCode
+        });
+        
+        // Provide more helpful error messages
+        let errorMessage = 'Error creating checkout session';
+        if (error.type === 'StripeAuthenticationError') {
+            errorMessage = 'Payment service authentication failed. Please contact support.';
+        } else if (error.type === 'StripeAPIError') {
+            errorMessage = 'Payment service error. Please try again.';
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+        
         return res.status(500).json({ 
-            error: 'Error creating checkout session',
-            message: error.message 
+            error: errorMessage,
+            message: error.message,
+            type: error.type || 'UnknownError'
         });
     }
 }
