@@ -57,7 +57,7 @@ body {
 }
 
 .logo-image {
-    height: 120px;
+    height: 80px;
     width: auto;
     object-fit: contain;
     transition: transform 0.3s;
@@ -1074,7 +1074,7 @@ body {
     }
     
     .logo-image {
-        height: 90px;
+        height: 60px;
     }
     
     .footer-logo {
