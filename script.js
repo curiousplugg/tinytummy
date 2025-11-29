@@ -385,31 +385,22 @@ function setupEventListeners() {
                 throw new Error(data.error || data.message || 'Failed to create checkout session');
             }
             
-                // Show checkout redirect UI
-                if (stripeCheckoutContainer) {
-                    stripeCheckoutContainer.innerHTML = `
-                        <div class="stripe-checkout-redirect">
-                            <div class="checkout-icon">🔒</div>
-                            <h4>Secure Checkout</h4>
-                            <p>You'll be redirected to Stripe's secure payment page to complete your purchase.</p>
-                            <button class="btn-primary checkout-redirect-btn" onclick="window.location.href='${data.url}'" style="margin-top: 1.5rem; width: 100%; padding: 1rem; font-size: 1.1rem;">
-                                Continue to Secure Checkout →
-                            </button>
-                            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
-                                Powered by Stripe • Secure & Encrypted
-                            </p>
-                        </div>
-                    `;
-                }
+                // Initialize Stripe and embed checkout
+                const stripe = Stripe('pk_live_51SYRe757nKOsYdQQpPiiiwKMmlgXHV3AMqaC8mhoLlgV37ieOElwcv8KmJiQFgWnmcQFj6rT3DjgY0JV2Zh3y4hg00TTUK6Zq8');
                 
-                // Auto-redirect after 3 seconds
-                setTimeout(() => {
-                    window.location.href = data.url;
-                }, 3000);
+                // Create embedded checkout
+                const checkout = await stripe.initEmbeddedCheckout({
+                    clientSecret: data.clientSecret
+                });
+                
+                // Mount the embedded checkout
+                if (stripeCheckoutContainer) {
+                    checkout.mount(stripeCheckoutContainer);
+                }
             
-            // Reset button
-            checkoutBtn.disabled = false;
-            checkoutBtn.textContent = 'Checkout';
+                // Reset button
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = 'Checkout';
             
         } catch (error) {
             console.error('Checkout error:', error);

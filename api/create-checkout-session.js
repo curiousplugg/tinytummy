@@ -65,13 +65,13 @@ module.exports = async function handler(req, res) {
             ? `https://${req.headers.host}` 
             : 'https://tiny-tummy.com');
 
-        // Create Stripe Checkout Session
+        // Create Stripe Checkout Session with embedded mode
         const session = await stripe.checkout.sessions.create({
+            ui_mode: 'embedded',
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${origin}/index.html#products`,
+            return_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
             shipping_address_collection: {
                 allowed_countries: ['US', 'CA'], // Add more countries as needed
             },
@@ -98,8 +98,7 @@ module.exports = async function handler(req, res) {
         });
 
         return res.status(200).json({ 
-            sessionId: session.id,
-            url: session.url
+            clientSecret: session.client_secret
         });
     } catch (error) {
         console.error('Error creating checkout session:', error);
