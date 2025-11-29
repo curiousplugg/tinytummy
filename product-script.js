@@ -310,9 +310,12 @@ function updateQuantity(productId, change) {
         renderCart();
         updateCartCount();
         
-        // Refresh checkout if it's already displayed
+        // Refresh checkout when cart changes
         if (typeof window.refreshCheckout === 'function') {
             window.refreshCheckout();
+        } else if (cart.length > 0) {
+            // Initialize checkout if not already initialized
+            initializeCheckout();
         }
     }
 }
@@ -422,6 +425,10 @@ function setupEventListeners() {
         cartIcon.addEventListener('click', () => {
             renderCart();
             cartModal.classList.add('show');
+            // Initialize checkout if cart has items
+            if (cart.length > 0) {
+                initializeCheckout();
+            }
         });
     }
     
@@ -563,9 +570,25 @@ function setupEventListeners() {
                 currentStripeInstance = Stripe('pk_live_51SYRe757nKOsYdQQpPiiiwKMmlgXHV3AMqaC8mhoLlgV37ieOElwcv8KmJiQFgWnmcQFj6rT3DjgY0JV2Zh3y4hg00TTUK6Zq8');
             }
             
+            // Destroy existing checkout if it exists
+            if (stripeCheckout) {
+                try {
+                    stripeCheckout.destroy();
+                } catch (e) {
+                    console.log('Error destroying checkout:', e);
+                }
+                stripeCheckout = null;
+            }
+            
             // Create embedded checkout
             stripeCheckout = await currentStripeInstance.initEmbeddedCheckout({
-                clientSecret: data.clientSecret
+                clientSecret: data.clientSecret,
+                onComplete: async (event) => {
+                    // Handle successful payment
+                    console.log('Payment completed:', event);
+                    // Redirect to success page
+                    window.location.href = `/success.html?session_id=${event.sessionId}`;
+                }
             });
             
             // Mount the embedded checkout
