@@ -42,7 +42,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0;
+    padding: 0.25rem 0;
 }
 
 .logo {
@@ -75,16 +75,16 @@ body {
 
 .nav {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .nav a {
     text-decoration: none;
     color: var(--text-dark);
     font-weight: 500;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     transition: color 0.3s;
-    padding: 0.25rem 0;
+    padding: 0.15rem 0;
 }
 
 .nav a:hover {
@@ -94,8 +94,8 @@ body {
 .cart-icon {
     position: relative;
     cursor: pointer;
-    font-size: 1.5rem;
-    padding: 0.5rem;
+    font-size: 1.3rem;
+    padding: 0.35rem;
 }
 
 .cart-count {
@@ -1070,7 +1070,7 @@ body {
 @media (max-width: 768px) {
     .header-content {
         flex-wrap: wrap;
-        padding: 0.75rem 0;
+        padding: 0.5rem 0;
     }
     
     .logo-image {
