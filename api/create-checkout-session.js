@@ -97,48 +97,6 @@ module.exports = async function handler(req, res) {
                     },
                 },
             ],
-            appearance: {
-                theme: 'stripe',
-                variables: {
-                    colorPrimary: '#ff4de7', // Pink brand color
-                    colorBackground: '#ffffff',
-                    colorText: '#1a1a1a',
-                    colorDanger: '#df1b41',
-                    fontFamily: 'system-ui, sans-serif',
-                    spacingUnit: '4px',
-                    borderRadius: '8px',
-                },
-                rules: {
-                    '.Input': {
-                        borderRadius: '8px',
-                        borderColor: '#e0e0e0',
-                    },
-                    '.Input:focus': {
-                        borderColor: '#ff4de7',
-                        boxShadow: '0 0 0 3px rgba(255, 77, 231, 0.1)',
-                    },
-                    '.Tab': {
-                        borderRadius: '8px',
-                    },
-                    '.Tab--selected': {
-                        backgroundColor: '#ff4de7',
-                        color: '#ffffff',
-                    },
-                    '.Button': {
-                        borderRadius: '8px',
-                        backgroundColor: '#000000', // Black accent color for pay button
-                        color: '#ffffff',
-                        fontWeight: '600',
-                    },
-                    '.Button:hover': {
-                        backgroundColor: '#1a1a1a',
-                    },
-                    '.CheckoutHeader': {
-                        backgroundColor: '#ff4de7', // Pink header
-                        color: '#ffffff',
-                    },
-                },
-            },
             metadata: {
                 order_items: JSON.stringify(items.map(item => ({
                     title: item.title,
