@@ -1377,8 +1377,12 @@ body {
 }
 
 .product-images.sticky-images {
-    position: relative;
+    position: sticky;
+    top: 120px; /* Offset from top to account for header */
     align-self: start;
+    transition: top 0.3s ease;
+    max-height: calc(100vh - 140px); /* Prevent overflow */
+    overflow-y: auto;
 }
 
 .product-details {
