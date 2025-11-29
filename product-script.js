@@ -347,6 +347,21 @@ function renderCart() {
         return;
     }
     
+    // XSS Protection - Escape HTML
+    function escapeHtml(text) {
+        if (typeof text !== 'string') {
+            return String(text);
+        }
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, (m) => map[m]);
+    }
+    
     cartItems.innerHTML = cart.map(item => {
         const product = products.find(p => p.id === item.id);
         const images = productImages[item.id] || [product.image];
