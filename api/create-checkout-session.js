@@ -85,7 +85,10 @@ module.exports = async function handler(req, res) {
             },
         });
 
-        return res.status(200).json({ sessionId: session.id });
+        return res.status(200).json({ 
+            sessionId: session.id,
+            url: session.url
+        });
     } catch (error) {
         console.error('Error creating checkout session:', error);
         return res.status(500).json({ 

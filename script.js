@@ -300,19 +300,43 @@ function setupEventListeners() {
         }
     });
     
-    // Clear Cart
+    // Clear Cart - Custom Modal
     const clearCart = document.getElementById('clearCart');
+    const clearCartModal = document.getElementById('clearCartModal');
+    const cancelClearCart = document.getElementById('cancelClearCart');
+    const confirmClearCart = document.getElementById('confirmClearCart');
+    
     clearCart.addEventListener('click', () => {
-        if (confirm('Are you sure you want to clear your cart?')) {
-            cart = [];
-            saveCart();
-            updateCartCount();
-            renderCart();
+        clearCartModal.classList.add('show');
+    });
+    
+    cancelClearCart.addEventListener('click', () => {
+        clearCartModal.classList.remove('show');
+    });
+    
+    confirmClearCart.addEventListener('click', () => {
+        cart = [];
+        saveCart();
+        updateCartCount();
+        renderCart();
+        clearCartModal.classList.remove('show');
+        // Also close cart modal if open
+        cartModal.classList.remove('show');
+    });
+    
+    // Close clear cart modal when clicking outside
+    clearCartModal.addEventListener('click', (e) => {
+        if (e.target === clearCartModal) {
+            clearCartModal.classList.remove('show');
         }
     });
     
-    // Checkout
+    // Checkout - Embedded Stripe
     const checkoutBtn = document.getElementById('checkoutBtn');
+    const stripeCheckoutSection = document.getElementById('stripeCheckoutSection');
+    const stripeCheckoutContainer = document.getElementById('stripeCheckoutContainer');
+    let stripeCheckout = null;
+    
     checkoutBtn.addEventListener('click', async () => {
         if (cart.length === 0) {
             alert('Your cart is empty!');
@@ -322,6 +346,20 @@ function setupEventListeners() {
         // Disable button during processing
         checkoutBtn.disabled = true;
         checkoutBtn.textContent = 'Processing...';
+        
+        // Show loading state
+        stripeCheckoutSection.style.display = 'block';
+        stripeCheckoutContainer.innerHTML = `
+            <div class="stripe-loading">
+                <div class="loading-spinner"></div>
+                <p>Loading secure checkout...</p>
+            </div>
+        `;
+        
+        // Scroll to checkout section
+        setTimeout(() => {
+            stripeCheckoutSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
         
         try {
             // Send cart items to serverless function
@@ -347,19 +385,40 @@ function setupEventListeners() {
                 throw new Error(data.error || data.message || 'Failed to create checkout session');
             }
             
-            // Redirect to Stripe Checkout
-            // TODO: Replace with your NEW publishable key
-            const stripe = Stripe('pk_live_51SYRe757nKOsYdQQpPiiiwKMmlgXHV3AMqaC8mhoLlgV37ieOElwcv8KmJiQFgWnmcQFj6rT3DjgY0JV2Zh3y4hg00TTUK6Zq8');
-            const { error } = await stripe.redirectToCheckout({
-                sessionId: data.sessionId,
-            });
+                // Show checkout redirect UI
+                if (stripeCheckoutContainer) {
+                    stripeCheckoutContainer.innerHTML = `
+                        <div class="stripe-checkout-redirect">
+                            <div class="checkout-icon">🔒</div>
+                            <h4>Secure Checkout</h4>
+                            <p>You'll be redirected to Stripe's secure payment page to complete your purchase.</p>
+                            <button class="btn-primary checkout-redirect-btn" onclick="window.location.href='${data.url}'" style="margin-top: 1.5rem; width: 100%; padding: 1rem; font-size: 1.1rem;">
+                                Continue to Secure Checkout →
+                            </button>
+                            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-light);">
+                                Powered by Stripe • Secure & Encrypted
+                            </p>
+                        </div>
+                    `;
+                }
+                
+                // Auto-redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = data.url;
+                }, 3000);
             
-            if (error) {
-                throw new Error(error.message);
-            }
+            // Reset button
+            checkoutBtn.disabled = false;
+            checkoutBtn.textContent = 'Checkout';
+            
         } catch (error) {
             console.error('Checkout error:', error);
-            alert('Error processing checkout: ' + error.message);
+            stripeCheckoutContainer.innerHTML = `
+                <div class="stripe-loading">
+                    <p style="color: #c62828;">Error: ${error.message}</p>
+                    <button class="btn-primary" onclick="location.reload()" style="margin-top: 1rem;">Try Again</button>
+                </div>
+            `;
             checkoutBtn.disabled = false;
             checkoutBtn.textContent = 'Checkout';
         }
