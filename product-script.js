@@ -271,6 +271,11 @@ function addToCart(productId) {
     saveCart();
     updateCartCount();
     showNotification('Product added to cart!');
+    
+    // Refresh checkout if it's already displayed
+    if (typeof window.refreshCheckout === 'function') {
+        window.refreshCheckout();
+    }
 }
 
 // Remove from Cart
@@ -280,6 +285,11 @@ function removeFromCart(productId) {
     updateCartCount();
     renderCart();
     showNotification('Product removed from cart');
+    
+    // Refresh checkout if it's already displayed
+    if (typeof window.refreshCheckout === 'function') {
+        window.refreshCheckout();
+    }
 }
 
 // Update Quantity
@@ -295,6 +305,11 @@ function updateQuantity(productId, change) {
         saveCart();
         renderCart();
         updateCartCount();
+        
+        // Refresh checkout if it's already displayed
+        if (typeof window.refreshCheckout === 'function') {
+            window.refreshCheckout();
+        }
     }
 }
 
@@ -531,16 +546,18 @@ function setupEventListeners() {
                 }
                 
                 // Initialize Stripe and embed checkout
-                const stripe = Stripe('pk_live_51SYRe757nKOsYdQQpPiiiwKMmlgXHV3AMqaC8mhoLlgV37ieOElwcv8KmJiQFgWnmcQFj6rT3DjgY0JV2Zh3y4hg00TTUK6Zq8');
+                if (!currentStripeInstance) {
+                    currentStripeInstance = Stripe('pk_live_51SYRe757nKOsYdQQpPiiiwKMmlgXHV3AMqaC8mhoLlgV37ieOElwcv8KmJiQFgWnmcQFj6rT3DjgY0JV2Zh3y4hg00TTUK6Zq8');
+                }
                 
                 // Create embedded checkout
-                const checkout = await stripe.initEmbeddedCheckout({
+                stripeCheckout = await currentStripeInstance.initEmbeddedCheckout({
                     clientSecret: data.clientSecret
                 });
                 
                 // Mount the embedded checkout (container must be empty)
                 if (stripeCheckoutContainer) {
-                    checkout.mount(stripeCheckoutContainer);
+                    stripeCheckout.mount(stripeCheckoutContainer);
                 }
                 
                 // Reset button
