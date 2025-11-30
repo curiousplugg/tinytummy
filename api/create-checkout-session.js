@@ -209,6 +209,12 @@ module.exports = async function handler(req, res) {
             },
         };
         
+        // Explicitly ensure customer_email is NOT included (prevents "Invalid email address" error)
+        // Stripe will collect email in the embedded form automatically
+        if (sessionConfig.customer_email !== undefined) {
+            delete sessionConfig.customer_email;
+        }
+        
         // Log config for debugging (remove in production if needed)
         console.log('Creating checkout session with config:', JSON.stringify(sessionConfig, null, 2));
         
