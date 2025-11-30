@@ -179,9 +179,6 @@ module.exports = async function handler(req, res) {
             mode: 'payment',
             return_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
             
-            // Collect customer email for order confirmation
-            customer_email: null, // Let Stripe collect it in the form
-            
             // Shipping configuration - expanded countries
             shipping_address_collection: {
                 allowed_countries: [
@@ -225,14 +222,10 @@ module.exports = async function handler(req, res) {
             },
             
             // Automatic tax calculation (if enabled in Stripe)
-            automatic_tax: {
-                enabled: false, // Set to true if you have tax calculation enabled
-            },
-            
-            // Payment intent data for better tracking
-            payment_intent_data: {
-                description: `Tiny Tummy Order - ${validItems.length} item(s)`,
-            },
+            // Note: Only include if tax calculation is enabled in your Stripe account
+            // automatic_tax: {
+            //     enabled: false,
+            // },
         });
 
         return res.status(200).json({ 
