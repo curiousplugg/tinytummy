@@ -172,7 +172,7 @@ module.exports = async function handler(req, res) {
         const totalAmount = validItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         
         // Create Stripe Checkout Session with embedded mode
-        // Note: Do NOT include customer_email - let Stripe collect it in the form
+        // Note: Do NOT include customer_email - Stripe will collect it in the embedded form
         const sessionConfig = {
             ui_mode: 'embedded',
             payment_method_types: ['card'],
@@ -209,14 +209,11 @@ module.exports = async function handler(req, res) {
             },
         };
         
-        // Explicitly ensure customer_email is NOT included (prevents "Invalid email address" error)
-        // Stripe will collect email in the embedded form automatically
+        // Ensure customer_email is NOT included (even as undefined/null/empty string)
+        // Stripe will automatically collect email in the embedded checkout form
         if (sessionConfig.customer_email !== undefined) {
             delete sessionConfig.customer_email;
         }
-        
-        // Log config for debugging (remove in production if needed)
-        console.log('Creating checkout session with config:', JSON.stringify(sessionConfig, null, 2));
         
         const session = await stripe.checkout.sessions.create(sessionConfig);
 
