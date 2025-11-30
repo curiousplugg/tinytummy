@@ -1539,6 +1539,29 @@ body {
     .hero-content p {
         word-wrap: break-word;
     }
+    
+    .stripe-checkout-container {
+        min-height: 500px;
+        padding: 0.5rem;
+    }
+    
+    .checkout-trust-badges {
+        gap: 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    .trust-badge-item {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.4rem;
+    }
+    
+    .stripe-checkout-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .checkout-subtitle {
+        font-size: 0.8rem;
+    }
 }
 
 /* Product Detail Page */
