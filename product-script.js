@@ -601,46 +601,14 @@ function setupEventListeners() {
                 stripeCheckout = null;
             }
             
-            // Create embedded checkout with enhanced event handling
+            // Create embedded checkout
             stripeCheckout = await currentStripeInstance.initEmbeddedCheckout({
                 clientSecret: data.clientSecret,
                 onComplete: async (event) => {
                     // Handle successful payment
                     console.log('Payment completed:', event);
-                    
-                    // Show success message before redirect
-                    if (stripeCheckoutContainer) {
-                        stripeCheckoutContainer.innerHTML = `
-                            <div class="stripe-loading" style="color: #4caf50;">
-                                <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
-                                <p style="font-size: 1.2rem; font-weight: 600; color: #4caf50;">Payment Successful!</p>
-                                <p>Redirecting to confirmation...</p>
-                            </div>
-                        `;
-                    }
-                    
-                    // Redirect to success page after brief delay
-                    setTimeout(() => {
-                        window.location.href = `/success.html?session_id=${event.sessionId}`;
-                    }, 1500);
-                },
-                // Listen to other checkout events for better UX
-                onReady: () => {
-                    console.log('Stripe checkout ready');
-                },
-                onError: (error) => {
-                    console.error('Stripe checkout error:', error);
-                    // Show user-friendly error message
-                    if (stripeCheckoutContainer) {
-                        const errorDiv = document.createElement('div');
-                        errorDiv.className = 'stripe-loading';
-                        errorDiv.innerHTML = `
-                            <p style="color: #c62828; margin-bottom: 1rem;">${error.message || 'An error occurred during checkout'}</p>
-                            <button class="btn-primary" onclick="window.refreshCheckout()">Try Again</button>
-                        `;
-                        stripeCheckoutContainer.innerHTML = '';
-                        stripeCheckoutContainer.appendChild(errorDiv);
-                    }
+                    // Redirect to success page
+                    window.location.href = `/success.html?session_id=${event.sessionId}`;
                 }
             });
             
